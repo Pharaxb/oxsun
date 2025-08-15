@@ -1,0 +1,14 @@
+// Enable RTL
+$enable-rtl: true;
+
+// Import Bootstrap SCSS
+@import 'bootstrap/scss/bootstrap';
+
+// Variables
+@import 'dbvariables';
+
+// Fontawesome
+@import '@fortawesome/fontawesome-free/css/fontawesome.css';
+@import '@fortawesome/fontawesome-free/css/regular.css';
+@import '@fortawesome/fontawesome-free/css/solid.css';
+@import '@fortawesome/fontawesome-free/css/brands.css';

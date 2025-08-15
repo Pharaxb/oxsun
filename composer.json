@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.2",
         "cviebrock/eloquent-sluggable": "^12.0",
-        "dedoc/scramble": "^0.12.28",
+        "dedoc/scramble": "^0.12.29",
         "intervention/image": "^3.11",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
@@ -34,7 +34,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -56,24 +56,27 @@ class AuthController extends BaseController
             }
         }
     }
+
     public function sendSms($userid, $mobile)
     {
         try {
             $ranCode = random_int(10000, 99999);
             SmsToken::create([
                 'user_id' => $userid,
-                'code' => Hash::make($ranCode)
+                //'code' => Hash::make($ranCode)
+                'code' => $ranCode
             ]);
 
             $client = new Client(config('services.ippanel.api_key'));
-            $patternCode = config('services.ippanel.pattern_code'); // شناسه الگو
-            $originator = config('services.ippanel.originator'); // شماره فرستنده
-            $recipient = $mobile; // شماره گیرنده
-            $values = ['verification-code' => $ranCode]; // متغیرهای الگو
+            $patternCode = config('services.ippanel.pattern_code');
+            $originator = config('services.ippanel.originator');
+            $recipient = $mobile;
+            $values = ['verification-code' => $ranCode];
 
             $client->sendPattern($patternCode, $originator, $recipient, $values);
             \Log::info('SMS sent to mobile: ' . $mobile . ' for user: ' . $userid);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             \Log::error('Failed to send SMS: ' . $e->getMessage());
             throw new \Exception('Unable to send SMS', 500);
         }
@@ -107,6 +110,7 @@ class AuthController extends BaseController
         }
         return $operatorId;
     }
+
     public function checkSms(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -122,14 +126,16 @@ class AuthController extends BaseController
         if (User::whereMobile($request->mobile)->exists()) {
             $user = User::whereMobile($request->mobile)->first();
             $userid = $user->id;
-            $smsToken = SmsToken::where('user_id', $userid)->first();
-            if($smsToken == NULL || !Hash::check($request->sms, $smsToken->code)) {
+            //$smsToken = SmsToken::where('user_id', $userid)->first();
+            $smsToken = SmsToken::where('user_id', $userid)->where('code', $request->sms)->first();
+            //if($smsToken == NULL || !Hash::check($request->sms, $smsToken->code)) {
+            if($smsToken == NULL) {
                 return $this->sendError('smsCode', 'این کد تائیدیه صحیح نیست');
             }
             elseif($smsToken->is_used == true) {
                 return $this->sendError('smsCode', 'این کد تائیدیه استفاده شده است');
             }
-            elseif(Carbon::parse($smsToken->created_at)->addSeconds(120)->lt(now())) {
+            elseif(Carbon::parse($smsToken->created_at)->addSeconds(5000)->lt(now())) {
                 return $this->sendError('smsCode', 'این کد تائیدیه منقضی شده است');
             }
             else {

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         $operators = array(
-            array('id' => '1','brand' => 'MCI','name' => 'همراه اول'),
-            array('id' => '2','brand' => 'MTN','name' => 'ایرانسل'),
-            array('id' => '3','brand' => 'Rightel','name' => 'رایتل')
+            array('id' => '1','brand' => 'MCI','name' => 'همراه اول','color' => '54c5d0'),
+            array('id' => '2','brand' => 'MTN','name' => 'ایرانسل','color' => 'febe10'),
+            array('id' => '3','brand' => 'Rightel','name' => 'رایتل','color' => '800080')
         );
         DB::table('operators')->insert($operators);
 
@@ -1798,7 +1798,7 @@ return new class extends Migration
         DB::table('settings')->insert($settings);
 
         $admins = array(
-            array('id' => '1','name' => 'Admin','surname' => NULL,'email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24')
+            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24')
         );
         DB::table('admins')->insert($admins);
 
