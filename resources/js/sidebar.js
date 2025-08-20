@@ -16,7 +16,7 @@ sidebarOverlay.addEventListener('click', () => {
 });
 
 // Navigation link click logic
-sidebarNav.addEventListener('click', (e) => {
+/*sidebarNav.addEventListener('click', (e) => {
     e.preventDefault();
     const link = e.target.closest('.nav-link');
     if (!link) return;
@@ -35,7 +35,7 @@ sidebarNav.addEventListener('click', (e) => {
     if (window.innerWidth < 992) {
         bodyEl.classList.add('sidebar-collapsed');
     }
-});
+});*/
 
 // Collapse sidebar on mobile by default for better initial view
 if (window.innerWidth < 992) {

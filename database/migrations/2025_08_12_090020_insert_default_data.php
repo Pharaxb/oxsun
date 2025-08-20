@@ -1792,13 +1792,15 @@ return new class extends Migration
         DB::table('districts')->insert($districts);
 
         $settings = array(
-            array('id' => '1','key' => 'commission','value' => '30','label' => 'کمیسیون'),
-            array('id' => '2','key' => 'vat','value' => '10','label' => 'ارزش افزوده')
+            array('id' => '1','key' => 'db_version','value' => '0.1 Beta','label' => 'ورژن داشبورد'),
+            array('id' => '2','key' => 'api_version','value' => '1','label' => 'ورژن api'),
+            array('id' => '3','key' => 'commission','value' => '30','label' => 'کمیسیون'),
+            array('id' => '4','key' => 'vat','value' => '10','label' => 'ارزش افزوده')
         );
         DB::table('settings')->insert($settings);
 
         $admins = array(
-            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24')
+            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','avatar' => NULL,'position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24')
         );
         DB::table('admins')->insert($admins);
 
@@ -1839,7 +1841,8 @@ return new class extends Migration
         DB::table('permissions')->insert($permissions);
 
         $roles = array(
-            array('id' => '1','name' => 'Super Admin','label' => 'مدیر کل','guard_name' => 'web','created_at' => '2025-08-12 22:45:42','updated_at' => '2025-08-12 22:45:42')
+            array('id' => '1','name' => 'Super Admin','label' => 'مدیر کل','color' => '#F7941D','guard_name' => 'web','created_at' => '2025-08-12 22:45:42','updated_at' => '2025-08-12 22:45:42'),
+            array('id' => '2','name' => 'Developer','label' => 'توسعه دهنده','color' => '#198754','guard_name' => 'web','created_at' => '2025-08-12 22:45:42','updated_at' => '2025-08-12 22:45:42')
         );
         DB::table('roles')->insert($roles);
 

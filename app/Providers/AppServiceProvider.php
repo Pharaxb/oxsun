@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
+use App\Models\Setting;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -28,13 +30,18 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
-        View::composer('dashboard.*', function ($view) {
+        View::composer('layouts.admin', function ($view) {
             $admin = Auth::user();
-            $view->with('admin', $admin);
+            $version = Setting::where('key', 'db_version')->first()->value;
+            $view->with('admin', $admin)->with('version', $version);
         });
 
-        Gate::before(function ($user, $ability) {
+        Gate::before(function ($user) {
             return $user->hasRole('Super Admin') ? true : null;
+        });
+
+        Gate::define('viewApiDocs', function (Admin $user) {
+            return $user->hasRole('Developer');
         });
 
         RateLimiter::for('api', function (Request $request) {

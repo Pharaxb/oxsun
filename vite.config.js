@@ -10,6 +10,8 @@ export default defineConfig({
                 'resources/sass/dashboard.scss',
                 'resources/js/dashboard.js',
                 'resources/js/charts.js',
+                'resources/sass/login.scss',
+                'resources/js/login.js',
             ],
             refresh: true,
         }),

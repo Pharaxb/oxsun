@@ -24,7 +24,6 @@ $tertiary-bg-dark: #2b3035;
     --sidebar-link-active-color: #{$sidebar-link-active-color};
     --sidebar-link-active-bg: #{$sidebar-link-active-bg-light};
     --main-bg: #{$main-bg-light};
-    --bs-primary: #{$primary};
 }
 
 [data-bs-theme="dark"] {
@@ -41,10 +40,6 @@ body {
     font-family: var(--bs-body-font-family);
     background-color: var(--main-bg);
     transition: background-color 0.3s ease;
-}
-
-a {
-    color: #F7941D;
 }
 
 .sidebar {
@@ -133,12 +128,73 @@ body.sidebar-collapsed {
     .feather {
         width: 40px;
         height: 40px;
-        color: var(--bs-primary);
     }
 }
 
 #theme-switch {
     cursor: pointer;
+}
+
+.small-avatar {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+}
+
+#avatarPreview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.avatar-delete-btn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 32px;
+    height: 32px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-container:hover .avatar-delete-btn {
+    opacity: 1;
+}
+
+.avatar-upload-container {
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+}
+
+.avatar-upload-container .avatar-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    transition: .3s ease;
+    opacity: 0;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.avatar-upload-container:hover .avatar-overlay {
+    opacity: 1;
 }
 
 // Responsive Styles
@@ -161,4 +217,55 @@ body.sidebar-collapsed {
     body:not(.sidebar-collapsed) .sidebar-overlay {
         display: block;
     }
+}
+// Ensure primary button text is white
+.btn-primary {
+    color: #ffffff !important;
+    &:hover, &:focus, &:active, &.active {
+        color: #ffffff !important;
+    }
+}
+
+/* Container for position tags */
+.position-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.position-tag .form-check-input {
+    display: none; /* مخفی کردن چک‌باکس اصلی */
+}
+
+.position-tag .form-check-label {
+    padding: 0.5rem 1rem;
+    /* در حالت عادی، حاشیه و متن همرنگ پوزیشن است */
+    border: 1px solid var(--position-color, var(--bs-border-color));
+    color: var(--position-color, var(--bs-body-color));
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+    background-color: transparent;
+}
+
+/* افکت هاور */
+.position-tag .form-check-label:hover {
+    background-color: color-mix(in srgb, var(--position-color, var(--bs-secondary)) 15%, transparent);
+}
+
+/* استایل تگ‌های انتخاب شده */
+.position-tag .form-check-input:checked + .form-check-label {
+    background-color: var(--position-color);
+    color: var(--text-color); /* رنگ متضاد که از backend می‌آید */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.sidebar-footer {
+    position: absolute;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--bs-secondary-color);
+    opacity: 0.7;
 }

@@ -10,9 +10,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        //$admin = Auth::user();
-        //$userCount = User::count();
-        //$adCount = Ad::count();
         return view('dashboard.index');
+    }
+
+    public function profile()
+    {
+        return view('dashboard.profile');
     }
 }

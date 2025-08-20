@@ -103,39 +103,6 @@
         </div>
     </div>
 
-    <!-- Profile Page -->
-    <div id="page-profile" class="page-content d-none">
-        <h1 class="h3 mb-4">پروفایل کاربری</h1>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">ویرایش اطلاعات</h5>
-                <form>
-                    <div class="row">
-                        <div class="col-md-4 text-center">
-                            <img src="https://placehold.co/150x150/E7F1FF/0D6EFD?text=A" class="img-thumbnail rounded-circle mb-3" alt="Avatar">
-                            <button type="button" class="btn btn-sm btn-outline-primary">تغییر آواتار</button>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">نام و نام خانوادگی</label>
-                                <input type="text" class="form-control" id="fullName" value="علی رضایی">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">ایمیل</label>
-                                <input type="email" class="form-control" id="email" value="ali.rezaei@example.com">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">شماره تماس</label>
-                                <input type="text" class="form-control" id="phone" value="۰۹۱۲۳۴۵۶۷۸۹">
-                            </div>
-                            <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Other Pages (Placeholders) -->
     <div id="page-personnel" class="page-content d-none">
         <h1 class="h3 mb-4">مدیریت پرسنل</h1>

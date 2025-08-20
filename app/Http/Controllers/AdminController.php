@@ -4,15 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+    protected $admin;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->admin = Auth::user();
+            view()->share([ 'admin' => $this->admin ]);
+            return $next($request);
+        });
+        $this->middleware('permission:show-admin', ['only' => ['index','show']]);
+        $this->middleware('permission:create-admin', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-admin', ['only' => ['edit','update']]);
+        $this->middleware('permission:destroy-admin', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admins.index');
     }
 
     /**
@@ -44,7 +59,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        //
+        return view('admins.edit', compact('admin'));
     }
 
     /**

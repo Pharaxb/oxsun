@@ -12,3 +12,20 @@ function to_english_number($str){
     $output  = str_replace($fa, $en, $str);
     return($output);
 }
+
+function getContrastingTextColor(string $hexColor): string
+{
+    // Remove '#' if present
+    $hexColor = str_replace('#', '', $hexColor);
+
+    // Convert hex to RGB
+    $r = hexdec(substr($hexColor, 0, 2));
+    $g = hexdec(substr($hexColor, 2, 2));
+    $b = hexdec(substr($hexColor, 4, 2));
+
+    // Calculate the perceived brightness of the color using the standard formula
+    $brightness = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+    // Return black for light backgrounds, white for dark backgrounds
+    return $brightness > 128 ? '#000000' : '#FFFFFF';
+}
