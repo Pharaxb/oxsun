@@ -21,9 +21,15 @@
             </div>
         </div>
         <div class="col-md-8">
-            <div class="mb-3">
-                <label for="name" class="form-label">نام و نام خانوادگی</label>
-                <input type="text" class="form-control" id="name" value="{{ $admin->name.' '.$admin->surname }}" readonly>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">نام</label>
+                    <input type="text" class="form-control" id="name" value="{{ $admin->name }}" wire:model="name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="surname" class="form-label">نام خانوادگی</label>
+                    <input type="text" class="form-control" id="surname" value="{{ $admin->surname }}" wire:model="surname">
+                </div>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">ایمیل</label>

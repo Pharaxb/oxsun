@@ -1,5 +1,4 @@
 <div>
-
     @if($admin->avatar != Null)
         <img src="{{ Storage::url($admin->avatar) }}" class="rounded-circle small-avatar" alt="Avatar" loading="lazy" />
     @else

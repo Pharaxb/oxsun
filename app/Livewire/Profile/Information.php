@@ -14,11 +14,15 @@ class Information extends Component
 
     public Admin $admin;
     public $avatarInput;
+    public $name;
+    public $surname;
     public $email;
 
     public function mount()
     {
         $this->admin = Auth::user();
+        $this->name = $this->admin->name;
+        $this->surname = $this->admin->surname;
         $this->email = $this->admin->email;
     }
 
@@ -58,16 +62,26 @@ class Information extends Component
     public function changeEmail()
     {
         $this->validate([
+            'name' => 'required',
+            'surname' => 'required',
             'email' => 'required',
         ]);
 
-        if ($this->admin->email != $this->email) {
-            $this->admin->email = $this->email;
-            $this->admin->save();
+        $currentEmail = $this->admin->email;
 
+        $this->admin->update([
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'email' => $this->email,
+        ]);
+
+        if ($currentEmail != $this->email) {
             Auth::logout();
-
             return redirect(route('login'));
+        }
+        else {
+            $this->dispatch('Fullname');
+            $this->dispatch('toast', 'success', 'اطلاعات پروفایل با موفقیت عوض شد');
         }
     }
 

@@ -1800,7 +1800,8 @@ return new class extends Migration
         DB::table('settings')->insert($settings);
 
         $admins = array(
-            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','avatar' => NULL,'position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24')
+            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','avatar' => NULL,'position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24'),
+            //array('id' => '2','name' => 'علی','surname' => 'رضائی','email' => 'alirezaie@yahoo.com','email_verified_at' => NULL,'password' => '$2y$12$AAN7KE8ZhY5iJnv5NPyLDuWbATfttk3//c6HpCS6y/4hoyohsULpC','avatar' => NULL,'position' => NULL,'is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-21 15:05:05','updated_at' => '2025-08-21 15:05:05')
         );
         DB::table('admins')->insert($admins);
 
@@ -1836,7 +1837,8 @@ return new class extends Migration
             array('id' => '29','name' => 'show-faq','label' => 'نمایش سوالات متداول','group' => 'سوالات متداول','guard_name' => 'web','created_at' => '2025-08-12 22:42:19','updated_at' => '2025-08-12 22:42:19'),
             array('id' => '30','name' => 'create-faq','label' => 'ایجاد سوالات متداول','group' => 'سوالات متداول','guard_name' => 'web','created_at' => '2025-08-12 22:42:19','updated_at' => '2025-08-12 22:42:19'),
             array('id' => '31','name' => 'edit-faq','label' => 'ویرایش سوالات متداول','group' => 'سوالات متداول','guard_name' => 'web','created_at' => '2025-08-12 22:42:20','updated_at' => '2025-08-12 22:42:20'),
-            array('id' => '32','name' => 'destroy-faq','label' => 'حذف سوالات متداول','group' => 'سوالات متداول','guard_name' => 'web','created_at' => '2025-08-12 22:42:20','updated_at' => '2025-08-12 22:42:20')
+            array('id' => '32','name' => 'destroy-faq','label' => 'حذف سوالات متداول','group' => 'سوالات متداول','guard_name' => 'web','created_at' => '2025-08-12 22:42:20','updated_at' => '2025-08-12 22:42:20'),
+            array('id' => '33','name' => 'developer','label' => 'توسعه دهنده','group' => 'توسعه دهنده','guard_name' => 'web','created_at' => '2025-08-12 22:42:21','updated_at' => '2025-08-12 22:42:21'),
         );
         DB::table('permissions')->insert($permissions);
 
@@ -1850,5 +1852,11 @@ return new class extends Migration
             array('role_id' => '1','model_type' => 'App\\Models\\Admin','model_id' => '1')
         );
         DB::table('model_has_roles')->insert($model_has_roles);
+
+        $role_has_permissions = array(
+            array('permission_id' => '33','role_id' => '2')
+        );
+        DB::table('role_has_permissions')->insert($role_has_permissions);
+
     }
 };

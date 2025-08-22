@@ -37,7 +37,6 @@
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('admins.edit', ['admin' => $admin->id]) }}" class="btn btn-sm btn-outline-secondary me-1" title="ویرایش"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <button class="btn btn-sm btn-outline-danger" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     @endforeach

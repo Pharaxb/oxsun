@@ -63,6 +63,13 @@
             </a>
         </li>
         @endcan
+        @can('developer')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('scramble.docs.ui') }}" data-page="settings">
+                    <i data-feather="code"></i> مستندات API
+                </a>
+            </li>
+        @endcan
     </ul>
     <div class="sidebar-footer">
         <span>{{ $version }}</span>
@@ -103,7 +110,7 @@
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <livewire:navbar.avatar :$admin  />
                         <div class="ms-2 me-2 d-none d-md-block">
-                            <div class="fw-bold">{{ $admin->name.' '.$admin->surname }}</div>
+                            <livewire:navbar.fullname :$admin  />
                             <div class="small text-secondary">{{ $admin->position }}</div>
                         </div>
                     </a>
