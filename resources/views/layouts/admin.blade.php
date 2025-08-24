@@ -24,27 +24,27 @@
     </div>
     <ul class="nav flex-column" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link  @if(Request::is('admin')) active @endif" href="{{ route('dashboard') }}" data-page="dashboard">
+            <a class="nav-link  @if(Request::is('admin')) active @endif" href="{{ route('dashboard') }}">
                 <i data-feather="home"></i> داشبورد
             </a>
         </li>
         @can('show-admin')
             <li class="nav-item">
-                <a class="nav-link @if(Request::is('admin/admins*')) active @endif" href="{{ route('admins.index') }}" data-page="personnel">
+                <a class="nav-link @if(Request::is('admin/admins*')) active @endif" href="{{ route('admins.index') }}">
                     <i data-feather="users"></i> مدیریت پرسنل
                 </a>
             </li>
         @endcan
         @can('show-user')
         <li class="nav-item">
-            <a class="nav-link" href="#" data-page="customers">
-                <i data-feather="briefcase"></i> مدیریت مشتریان
+            <a class="nav-link @if(Request::is('admin/users*')) active @endif" href="{{ route('users.index') }}">
+                <i data-feather="briefcase"></i> مدیریت کاربران
             </a>
         </li>
         @endcan
         @can('show-ad')
         <li class="nav-item">
-            <a class="nav-link" href="#" data-page="ads">
+            <a class="nav-link @if(Request::is('admin/ads*')) active @endif" href="{{ route('ads.index') }}">
                 <i data-feather="airplay"></i> مدیریت آگهی‌ها
             </a>
         </li>

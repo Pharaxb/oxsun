@@ -57,7 +57,7 @@
                         مرا به خاطر بسپار
                     </label>
                 </div>
-                <a href="#" class="form-text text-decoration-none">فراموشی رمز عبور</a>
+                <a href="{{ route('password.request') }}" class="form-text text-decoration-none">فراموشی رمز عبور</a>
             </div>
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">ورود</button>

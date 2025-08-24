@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->text('avatar')->nullable();
-            $table->string('position')->nullable();
+            $table->string('position')->default('کارشناس');
             $table->boolean('is_ban')->default(false);
             $table->string('ban_reason')->nullable();
             $table->rememberToken();

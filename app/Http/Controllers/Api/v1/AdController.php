@@ -213,14 +213,14 @@ class AdController extends BaseController
                     $query->where('operator_id', $operator)
                         ->orWhereNull('operator_id');
                 })
-                ->where(function ($query) use ($userAgeRange) {
+                /*->where(function ($query) use ($userAgeRange) {
                     $query->where('min_age_id', '<=', $userAgeRange)
                         ->orWhereNull('min_age_id');
                 })
                 ->where(function ($query) use ($userAgeRange) {
                     $query->where('max_age_id', '>', $userAgeRange)
                         ->orWhereNull('max_age_id');
-                })
+                })*/
                 ->whereNotIn('id',function($query) {
                     $query->select('ad_id')->from('ad_user')
                         ->where('status', '!=', 'U');

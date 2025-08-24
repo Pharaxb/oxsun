@@ -72,13 +72,13 @@ class Edit extends Component
             'name' => 'required',
             'surname' => 'required',
             'email' => 'required',
-            'selectedRoles' => 'array',
         ]);
 
         $this->admin->update([
             'name' => $this->name,
             'surname' => $this->surname,
             'email' => $this->email,
+            'position' => $this->position,
         ]);
         DB::table('sessions')->where('user_id', $this->admin->id)->delete();
 
@@ -97,9 +97,6 @@ class Edit extends Component
 
     public function changeBan()
     {
-        $role = Role::findById(2);
-        $role->givePermissionTo('developer');
-        dd($role->name);
         if ($this->is_ban) {
             $this->is_ban = false;
             $this->ban_reason;
@@ -107,16 +104,19 @@ class Edit extends Component
                 'is_ban' => false,
                 'ban_reason' => NULL
             ]);
+
+            $this->dispatch('toast', 'success', 'کاربر از مسدودیت خارج شد.');
         }
         else {
+            DB::table('sessions')->where('user_id', $this->admin->id)->delete();
             $this->is_ban = true;
             $this->admin->update([
                 'is_ban' => true,
                 'ban_reason' => $this->ban_reason
             ]);
-        }
 
-        $this->dispatch('toast', 'success', 'سطح دسترسی با موفقیت تغییر کرد.');
+            $this->dispatch('toast', 'success', 'کاربر با موفقیت مسدود شد.');
+        }
     }
 
     public function render()

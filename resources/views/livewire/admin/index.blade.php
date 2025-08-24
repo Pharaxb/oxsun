@@ -13,6 +13,7 @@
                     <tr>
                         <th>آواتار</th>
                         <th>نام و نام خانوادگی</th>
+                        <th>موقعیت شغلی</th>
                         <th>ایمیل</th>
                         <th>سطح دسترسی</th>
                         <th class="text-center">عملیات</th>
@@ -29,10 +30,11 @@
                                 @endif
                             </td>
                             <td>{{ $admin->name.' '.$admin->surname }}</td>
+                            <td>{{ $admin->position }}</td>
                             <td>{{ $admin->email }}</td>
                             <td>
                                 @foreach($admin->roles as $role)
-                                    <span class="badge"  style="background-color: {{ $role->color }}; color: {{ getContrastingTextColor($role->color) }}">{{ $role->label }}</span>
+                                    <span class="badge" style="background-color: {{ $role->color }}; color: {{ getContrastingTextColor($role->color) }}">{{ $role->label }}</span>
                                 @endforeach
                             </td>
                             <td class="text-center">

@@ -119,7 +119,7 @@ const createCharts = (theme) => {
     const genderCtx = document.getElementById('genderChart').getContext('2d');
     genderInstance = new Chart(genderCtx, {
         type: 'doughnut',
-        data: {
+        data: window.genderData || {
             labels: ['مرد', 'زن', 'نامعلوم'],
             datasets: [{
                 label: 'توزیع جنسیت',
@@ -135,7 +135,7 @@ const createCharts = (theme) => {
     const operatorCtx = document.getElementById('operatorChart').getContext('2d');
     operatorInstance = new Chart(operatorCtx, {
         type: 'doughnut',
-        data: {
+        data: window.operatorData || {
             labels: ['همراه اول', 'ایرانسل', 'رایتل', 'سایر'],
             datasets: [{
                 label: 'توزیع اپراتور',
@@ -146,6 +146,16 @@ const createCharts = (theme) => {
         },
         options: doughnutChartOptions(theme)
     });
+};
+
+// برای آپدیت real-time، می‌تونی یک فانکشن آپدیت اضافه کنی
+const updateChartsData = () => {
+    if (revenueChartInstance) revenueChartInstance.data = window.revenueData;
+    if (provinceInstance) provinceInstance.data = window.provinceData;
+    if (cityInstance) cityInstance.data = window.cityData;
+    if (genderInstance) genderInstance.data = window.genderData;
+    if (operatorInstance) operatorInstance.data = window.operatorData;
+    [revenueChartInstance, provinceInstance, cityInstance, genderInstance, operatorInstance].forEach(chart => chart?.update());
 };
 
 // Initialize Charts

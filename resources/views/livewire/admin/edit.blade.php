@@ -1,6 +1,7 @@
 <div>
     <div class="card mb-3">
         <div class="card-body p-4">
+            <h5 class="card-title">ویرایش اطلاعات</h5>
             <div class="row">
                 <div class="col-md-4 text-center">
                     <div class="avatar-container position-relative mx-auto d-block" style="width: 150px; height: 150px;">
@@ -32,9 +33,15 @@
                             <input type="text" class="form-control" id="surname" value="{{ $admin->surname }}" wire:model="surname">
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">ایمیل</label>
-                        <input type="email" class="form-control" id="email" dir="ltr" value="{{ $admin->email }}" wire:model="email">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">ایمیل</label>
+                            <input type="email" class="form-control" id="email" dir="ltr" value="{{ $admin->email }}" wire:model="email">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="position" class="form-label">موقعیت شغلی</label>
+                            <input type="text" class="form-control" id="position" value="{{ $admin->position }}" wire:model="position">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,10 +52,10 @@
     </div>
     <div class="card mb-3">
         <div class="card-body p-4">
+            <h5 class="card-title">سطح دسترسی</h5>
             <div class="row">
                 <div class="col-md">
                     <div class="mb-3">
-                        <label class="form-label">پوزیشن‌ها</label>
                         <div class="position-tags-container border rounded p-3">
                             @foreach($roles as $role)
                                 <div class="form-check position-tag" style="--position-color: {{ $role->color }}; --text-color: {{ getContrastingTextColor($role->color) }};">
@@ -67,6 +74,7 @@
     </div>
     <div class="card mb-3">
         <div class="card-body p-4">
+            <h5 class="card-title">مسدود سازی</h5>
             <div class="row">
                 <div class="mb-3">
                     @if($is_ban == false)

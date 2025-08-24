@@ -80,26 +80,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">جنسیت</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="genderChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">اپراتور موبایل</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="operatorChart"></canvas>
-                    </div>
-                </div>
-            </div>
+
+            <livewire:dashboard.gender-chart />
+
+            <livewire:dashboard.operator-chart />
         </div>
     </div>
 

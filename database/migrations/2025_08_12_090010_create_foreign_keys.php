@@ -66,7 +66,7 @@ return new class extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
         });
-        Schema::table('wallets', function(Blueprint $table) {
+        Schema::table('transactions', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
@@ -157,8 +157,8 @@ return new class extends Migration
         Schema::table('ad_user', function(Blueprint $table) {
             $table->dropForeign('ad_user_user_id_foreign');
         });
-        Schema::table('wallets', function(Blueprint $table) {
-            $table->dropForeign('wallets_user_id_foreign');
+        Schema::table('transactions', function(Blueprint $table) {
+            $table->dropForeign('transactions_user_id_foreign');
         });
         Schema::table('sms_tokens', function(Blueprint $table) {
             $table->dropForeign('sms_tokens_user_id_foreign');

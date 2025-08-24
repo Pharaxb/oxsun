@@ -26,7 +26,7 @@ return [
     'can'                    => 'فیلد :attribute یک مقدار غیرمجاز دارد.',
     'confirmed'              => ':Attribute با فیلد تکرار مطابقت ندارد.',
     'contains'               => 'فیلد :Attribute مقدار لازم را ندارد.',
-    'current_password'       => 'رمزعبور اشتباه است.',
+    'current_password'       => 'گذرواژه اشتباه است.',
     'date'                   => ':Attribute یک تاریخ معتبر نیست.',
     'date_equals'            => ':Attribute باید یک تاریخ برابر با تاریخ :date باشد.',
     'date_format'            => ':Attribute با الگوی :format مطابقت ندارد.',

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         $operators = array(
-            array('id' => '1','brand' => 'MCI','name' => 'همراه اول','color' => '54c5d0'),
-            array('id' => '2','brand' => 'MTN','name' => 'ایرانسل','color' => 'febe10'),
-            array('id' => '3','brand' => 'Rightel','name' => 'رایتل','color' => '800080')
+            array('id' => '1','brand' => 'MCI','name' => 'همراه اول','color' => '#54C5D0'),
+            array('id' => '2','brand' => 'MTN','name' => 'ایرانسل','color' => '#FEBE10'),
+            array('id' => '3','brand' => 'Rightel','name' => 'رایتل','color' => '#800080')
         );
         DB::table('operators')->insert($operators);
 
@@ -1857,6 +1857,20 @@ return new class extends Migration
             array('permission_id' => '33','role_id' => '2')
         );
         DB::table('role_has_permissions')->insert($role_has_permissions);
+
+        $users = array(
+            array('id' => '1','name' => 'آذرمهر','surname' => 'یلدا','mobile' => '09188002297','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
+            array('id' => '2','name' => 'آزاده','surname' => 'ملک','mobile' => '09132004572','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'female','birthday' => '2012-02-22','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
+            array('id' => '3','name' => 'اردوان','surname' => 'فانی','mobile' => '09124947070','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'other','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
+            array('id' => '4','name' => 'اکتای','surname' => 'علی‌زمانی','mobile' => '09333013336','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '2','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
+            array('id' => '5','name' => 'بختیار','surname' => 'ظریف','mobile' => '09212218264','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '3','gender' => 'male','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
+            array('id' => '6','name' => 'رشید','surname' => 'هاشمی','mobile' => '09361532361','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'male','birthday' => '2004-03-20','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
+            array('id' => '7','name' => 'افشار','surname' => 'مرتضوی','mobile' => '09167820806','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '1','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
+            array('id' => '8','name' => 'فرهود','surname' => 'کاملی','mobile' => '09109264369','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '1','gender' => 'male','birthday' => '1995-01-21','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
+            array('id' => '9','name' => 'آیسان','surname' => 'توکلیان','mobile' => '09011493370','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'female','birthday' => '2002-09-12','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
+            array('id' => '10','name' => 'حامد','surname' => 'زنوزی','mobile' => '09357923738','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'male','birthday' => '2002-06-21','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18')
+        );
+        DB::table('users')->insert($users);
 
     }
 };

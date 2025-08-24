@@ -60,7 +60,8 @@ class AuthController extends BaseController
     public function sendSms($userid, $mobile)
     {
         try {
-            $ranCode = random_int(10000, 99999);
+            //$ranCode = random_int(10000, 99999);
+            $ranCode = 11111;
             SmsToken::create([
                 'user_id' => $userid,
                 //'code' => Hash::make($ranCode)
@@ -73,7 +74,7 @@ class AuthController extends BaseController
             $recipient = $mobile;
             $values = ['verification-code' => $ranCode];
 
-            $client->sendPattern($patternCode, $originator, $recipient, $values);
+            //$client->sendPattern($patternCode, $originator, $recipient, $values);
             \Log::info('SMS sent to mobile: ' . $mobile . ' for user: ' . $userid);
         }
         catch (\Exception $e) {
@@ -127,7 +128,7 @@ class AuthController extends BaseController
             $user = User::whereMobile($request->mobile)->first();
             $userid = $user->id;
             //$smsToken = SmsToken::where('user_id', $userid)->first();
-            $smsToken = SmsToken::where('user_id', $userid)->where('code', $request->sms)->first();
+            $smsToken = SmsToken::where('user_id', $userid)->where('code', $request->sms)->orderBy('id', 'desc')->first();
             //if($smsToken == NULL || !Hash::check($request->sms, $smsToken->code)) {
             if($smsToken == NULL) {
                 return $this->sendError('smsCode', 'این کد تائیدیه صحیح نیست');
@@ -142,7 +143,7 @@ class AuthController extends BaseController
                 $smsToken->update([
                     'is_used' => true
                 ]);
-                if ($user->mobile_verified_at == null) {
+                if ($user->mobile_verified_at == NULL) {
                     $user->update([
                         'mobile_verified_at' => now()
                     ]);

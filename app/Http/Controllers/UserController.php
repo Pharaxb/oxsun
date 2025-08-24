@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ad;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class AdController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('ads.index');
+        return view('users.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class AdController extends Controller
      */
     public function create()
     {
-        return view('ads.create');
+        //
     }
 
     /**
@@ -34,7 +34,7 @@ class AdController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ad $ad)
+    public function show(User $user)
     {
         //
     }
@@ -42,15 +42,15 @@ class AdController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ad $ad)
+    public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ad $ad)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -58,7 +58,7 @@ class AdController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ad $ad)
+    public function destroy(User $user)
     {
         //
     }

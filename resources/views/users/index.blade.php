@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- Admin Management Page -->
-    <div id="page-admin" class="page-content">
+    <!-- User Management Page -->
+    <div id="page-user" class="page-content">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3 mb-0">مدیریت پرسنل</h1>
+            <h1 class="h3 mb-0">مدیریت کاربر</h1>
             <button class="btn btn-primary d-flex align-items-center">
                 <i data-feather="plus" class="me-2" style="width: 20px;"></i>
-                <span>افزودن پرسنل</span>
+                <span>افزودن کاربر</span>
             </button>
         </div>
-        <livewire:admin.index />
+        <livewire:user.index />
     </div>
 @endsection

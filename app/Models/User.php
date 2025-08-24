@@ -24,6 +24,7 @@ class User extends Authenticatable
         'name',
         'surname',
         'mobile',
+        'mobile_verified_at',
         'operator_id',
         'gender',
         'min_age_id',
