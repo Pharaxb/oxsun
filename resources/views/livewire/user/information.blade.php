@@ -9,6 +9,10 @@
                 <label for="surname" class="form-label">نام خانوادگی</label>
                 <input type="text" class="form-control" id="surname" wire:model="surname">
             </div>
+            <div class="col-md-4 mb-3">
+                <label for="credit" class="form-label">اعتبار</label>
+                <input type="text" class="form-control" id="credit" dir="ltr" value="{{ to_farsi_number(number_format($user->credit)) }}" disabled>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-4 mb-3">
@@ -25,7 +29,7 @@
                 if ($user->gender == 'male') {
                     $gender = 'مرد';
                 }
-                elseif($user->gender = 'female') {
+                elseif($user->gender == 'female') {
                     $gender = 'زن';
                 }
                 else {

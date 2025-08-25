@@ -21,5 +21,5 @@
         </table>
     </div>
     <!-- Pagination -->
-    {{ $transactions->links() }}
+    {{ $transactions->links(data: ['scrollTo' => false]) }}
 </div>

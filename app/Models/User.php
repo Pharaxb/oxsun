@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ad::class);
     }
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(UserLocation::class);
+    }
 }
