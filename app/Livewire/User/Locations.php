@@ -16,7 +16,7 @@ class Locations extends Component
     public function render()
     {
         return view('livewire.user.locations', [
-            'locations' => UserLocation::where('user_id', $this->user->id)->with('province')->orderBy('created_at', 'desc')->paginate(5, pageName: 'locations-page'),
+            'locations' => UserLocation::where('user_id', $this->user->id)->with('province')->orderBy('created_at', 'desc')->paginate(10, pageName: 'locations-page'),
         ]);
     }
 }

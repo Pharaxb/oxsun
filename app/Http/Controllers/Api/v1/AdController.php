@@ -42,6 +42,11 @@ class AdController extends BaseController
         Storage::put('requestAll.txt',$text);
     }*/
 
+    /**
+     * Show Ad.
+     *
+     * Show the given ad.
+     */
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -90,6 +95,12 @@ class AdController extends BaseController
         }
     }
 
+
+    /**
+     * Verify Seen Ad.
+     *
+     * Verify that the user has seen the ad.
+     */
     public function seen(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -148,12 +159,25 @@ class AdController extends BaseController
         }
     }
 
+    /*
+     * Get List of Ads.
+     *
+     * @response array{success: bool, data: array{rows: AdResource[], pagination: array{total: int, count: int, per_page: int, current_page: int, total_pages: int}}, message: string, code: int}
+     */
+
+
+    /**
+     * List Ads.
+     *
+     * List all ads based on the user's location.
+     */
 
     public function getAds(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
-            'longitude' => 'required'
+            'longitude' => 'required',
+            'page' => 'optional|integer|min:1',
         ]);
 
         if($validator->fails()){
@@ -176,6 +200,7 @@ class AdController extends BaseController
         $userAge = Carbon::parse($user->birthday)->diffInYears(Carbon::now());
         $userAgeCeil = 5 * ceil($userAge / 5);
         $userAgeRange = Age::where('group', '=', $userAgeCeil)->pluck('id')->first();
+        //dd($userAge);
         $operator = $user->operator_id;
 
         try
@@ -183,7 +208,7 @@ class AdController extends BaseController
             $ads = Ad::with('adLocations')
                 ->withExists('adUser')
                 ->where('status_id', 4)
-                ->where('is_verify', true)
+                ->where('is_verify', 1)
                 ->whereRaw('circulation > viewed')
                 ->where(function ($query) {
                     $query->whereRaw('start_date <= NOW()')
@@ -213,7 +238,33 @@ class AdController extends BaseController
                     $query->where('operator_id', $operator)
                         ->orWhereNull('operator_id');
                 })
-                /*->where(function ($query) use ($userAgeRange) {
+                ->where(function ($query) use ($userAgeRange) {
+                    $query->when($userAgeRange != NULL, function($query2) use ($userAgeRange) {
+                        $query2->where('min_age_id', '<=', $userAgeRange)
+                            ->orWhereNull('min_age_id');
+                    })
+                    ->when($userAgeRange == NULL, function($query2) use ($userAgeRange) {
+                        $query2->whereNull('min_age_id');
+                    });
+                })
+                ->where(function ($query) use ($userAgeRange) {
+                    $query->when($userAgeRange != NULL, function($query2) use ($userAgeRange) {
+                        $query2->where('max_age_id', '>=', $userAgeRange)
+                            ->orWhereNull('max_age_id');
+                    })
+                    ->when($userAgeRange == NULL, function($query2) use ($userAgeRange) {
+                        $query2->whereNull('max_age_id');
+                    });
+                })
+                /*->when($userAgeRange != NULL, function($query) use ($userAgeRange) {
+                    $query->where('min_age_id', '<=', $userAgeRange)
+                        ->orWhereNull('min_age_id');
+                })
+                ->when($userAgeRange != NULL, function($query) use ($userAgeRange) {
+                    $query->where('max_age_id', '>', $userAgeRange)
+                        ->orWhereNull('max_age_id');
+                })
+                ->where(function ($query) use ($userAgeRange) {
                     $query->where('min_age_id', '<=', $userAgeRange)
                         ->orWhereNull('min_age_id');
                 })
@@ -225,11 +276,16 @@ class AdController extends BaseController
                     $query->select('ad_id')->from('ad_user')
                         ->where('status', '!=', 'U');
                 })
+                ->orderBy('cost', 'desc')
+                ->orderBy('id', 'asc')
+                //->toSql();
                 ->paginate(10);
         }
         catch (\Exception $e) {
             return $this->sendError('Not Found!', $e->getMessage(), 400);
         }
+
+        //dd($ads);
 
         return $this->sendResponse(new AdCollection($ads), 'Ads fetched.');
     }
@@ -345,6 +401,12 @@ class AdController extends BaseController
         }
     }*/
 
+
+    /**
+     * Create Ad.
+     *
+     * Create an ad with multiple filters.
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -521,7 +583,7 @@ class AdController extends BaseController
         return $result;
     }
 
-    public function uploadImage($file)
+    private function uploadImage($file)
     {
         $user = Auth::user();
         $userId = $user->id;

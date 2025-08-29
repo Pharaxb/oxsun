@@ -13,7 +13,7 @@
             @foreach($transactions as $transaction)
                 <tr>
                     <td>{{ $transaction->description }}</td>
-                    <td>{{ $transaction->amount }}</td>
+                    <td dir="ltr" class="text-end">{{ to_farsi_number(number_format($transaction->amount)) }}</td>
                     <td>{{ to_farsi_number(\Hekmatinasser\Verta\Verta::instance($transaction->created_at)->format('d F Y - H:i:s')) }}</td>
                 </tr>
             @endforeach

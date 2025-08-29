@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('mobile')->unique();
             $table->timestamp('mobile_verified_at')->nullable();
             $table->unsignedBigInteger('operator_id')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('birthday')->nullable();
             $table->unsignedBigInteger('credit')->default('0');
             $table->boolean('is_ban')->default(false);

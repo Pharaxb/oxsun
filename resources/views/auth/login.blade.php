@@ -32,7 +32,7 @@
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">آدرس ایمیل</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="email@example.com" dir="ltr" required>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="email@example.com" dir="ltr" required autofocus>
 
                 @error('email')
                 <span class="invalid-feedback" role="alert">

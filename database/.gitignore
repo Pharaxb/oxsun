@@ -1,1 +1,2 @@
 *.sqlite*
+migrations/2025_08_12_090030_insert_default_data.php

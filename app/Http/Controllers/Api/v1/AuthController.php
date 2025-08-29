@@ -15,6 +15,11 @@ use Pishran\IpPanel\Client;
 
 class AuthController extends BaseController
 {
+    /**
+     * Get User Mobile.
+     * @unauthenticated
+     *
+     */
     public function checkMobile(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,7 +62,12 @@ class AuthController extends BaseController
         }
     }
 
-    public function sendSms($userid, $mobile)
+    /**
+     * Get User Mobile.
+     * @unauthenticated
+     *
+     */
+    private function sendSms($userid, $mobile)
     {
         try {
             //$ranCode = random_int(10000, 99999);
@@ -83,7 +93,7 @@ class AuthController extends BaseController
         }
     }
 
-    public function mobileOperator($mobile)
+    private function mobileOperator($mobile)
     {
         $threemobiledigits = substr($mobile, 0, 3);
         $fourmobiledigits = substr($mobile, 0, 4);
@@ -112,6 +122,11 @@ class AuthController extends BaseController
         return $operatorId;
     }
 
+    /**
+     * Get User SMS.
+     * @unauthenticated
+     *
+     */
     public function checkSms(Request $request)
     {
         $validator = Validator::make($request->all(), [

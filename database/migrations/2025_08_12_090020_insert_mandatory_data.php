@@ -1799,12 +1799,6 @@ return new class extends Migration
         );
         DB::table('settings')->insert($settings);
 
-        $admins = array(
-            array('id' => '1','name' => 'فراز','surname' => 'بنی آدم','email' => 'admin@oxsun.ir','email_verified_at' => NULL,'password' => '$2y$12$GAXTXo63DlSe3j1uwO5HXOv/6Szux1lY5MHtIq8S.dBTz037Pz8f6','avatar' => NULL,'position' => 'مدیر کل','is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-12 12:58:24','updated_at' => '2025-08-12 12:58:24'),
-            //array('id' => '2','name' => 'علی','surname' => 'رضائی','email' => 'alirezaie@yahoo.com','email_verified_at' => NULL,'password' => '$2y$12$AAN7KE8ZhY5iJnv5NPyLDuWbATfttk3//c6HpCS6y/4hoyohsULpC','avatar' => NULL,'position' => NULL,'is_ban' => '0','ban_reason' => NULL,'remember_token' => NULL,'created_at' => '2025-08-21 15:05:05','updated_at' => '2025-08-21 15:05:05')
-        );
-        DB::table('admins')->insert($admins);
-
         $permissions = array(
             array('id' => '1','name' => 'show-admin','label' => 'نمایش مدیر','group' => 'مدیران','guard_name' => 'web','created_at' => '2025-08-12 22:42:15','updated_at' => '2025-08-12 22:42:15'),
             array('id' => '2','name' => 'create-admin','label' => 'ایجاد مدیر','group' => 'مدیران','guard_name' => 'web','created_at' => '2025-08-12 22:42:15','updated_at' => '2025-08-12 22:42:15'),
@@ -1848,29 +1842,10 @@ return new class extends Migration
         );
         DB::table('roles')->insert($roles);
 
-        $model_has_roles = array(
-            array('role_id' => '1','model_type' => 'App\\Models\\Admin','model_id' => '1')
-        );
-        DB::table('model_has_roles')->insert($model_has_roles);
-
         $role_has_permissions = array(
             array('permission_id' => '33','role_id' => '2')
         );
         DB::table('role_has_permissions')->insert($role_has_permissions);
-
-        $users = array(
-            array('id' => '1','name' => 'آذرمهر','surname' => 'یلدا','mobile' => '09188002297','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
-            array('id' => '2','name' => 'آزاده','surname' => 'ملک','mobile' => '09132004572','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'female','birthday' => '2012-02-22','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
-            array('id' => '3','name' => 'اردوان','surname' => 'فانی','mobile' => '09124947070','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '1','gender' => 'other','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
-            array('id' => '4','name' => 'اکتای','surname' => 'علی‌زمانی','mobile' => '09333013336','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '2','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
-            array('id' => '5','name' => 'بختیار','surname' => 'ظریف','mobile' => '09212218264','mobile_verified_at' => '2025-08-22 20:59:50','operator_id' => '3','gender' => 'male','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 20:59:50','updated_at' => '2025-08-22 20:59:50'),
-            array('id' => '6','name' => 'رشید','surname' => 'هاشمی','mobile' => '09361532361','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'male','birthday' => '2004-03-20','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
-            array('id' => '7','name' => 'افشار','surname' => 'مرتضوی','mobile' => '09167820806','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '1','gender' => 'female','birthday' => NULL,'credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
-            array('id' => '8','name' => 'فرهود','surname' => 'کاملی','mobile' => '09109264369','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '1','gender' => 'male','birthday' => '1995-01-21','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
-            array('id' => '9','name' => 'آیسان','surname' => 'توکلیان','mobile' => '09011493370','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'female','birthday' => '2002-09-12','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18'),
-            array('id' => '10','name' => 'حامد','surname' => 'زنوزی','mobile' => '09357923738','mobile_verified_at' => '2025-08-22 21:06:18','operator_id' => '2','gender' => 'male','birthday' => '2002-06-21','credit' => '0','is_ban' => '0','ban_reason' => NULL,'created_at' => '2025-08-22 21:06:18','updated_at' => '2025-08-22 21:06:18')
-        );
-        DB::table('users')->insert($users);
 
     }
 };

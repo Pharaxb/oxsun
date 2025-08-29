@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ad;
+use App\Models\AdLocation;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\UserLocation;
@@ -14,7 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        UserLocation::factory(5)->create();
+        Ad::factory(15)->create();
+        //AdLocation::factory(15)->create();
+        //UserLocation::factory(5)->create();
         //User::factory(5)->create();
 
         /*User::factory()->create([

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('viewed')->default('0');
             $table->unsignedInteger('cost');
             $table->unsignedInteger('commission')->nullable();
-            $table->string('gender')->nullable();
+            $table->enum('gender', ['male', 'female'])->nullable();
             $table->unsignedBigInteger('operator_id')->nullable();
             $table->unsignedBigInteger('min_age_id')->nullable();
             $table->unsignedBigInteger('max_age_id')->nullable();
