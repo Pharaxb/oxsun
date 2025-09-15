@@ -11,6 +11,8 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('media/{token}', [AdController::class, 'media'])->name('media');
+
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function() {

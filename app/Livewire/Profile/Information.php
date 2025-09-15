@@ -43,7 +43,7 @@ class Information extends Component
         }
 
         $this->dispatch('Avatar');
-        $this->dispatch('toast', 'success', 'عکس پروفایل با موفقیت عوض شد');
+        $this->dispatch('toast', icon: 'success', title: 'عکس پروفایل با موفقیت عوض شد');
     }
 
     public function deleteAvatar()
@@ -56,7 +56,7 @@ class Information extends Component
         $this->admin->save();
 
         $this->dispatch('Avatar');
-        $this->dispatch('toast', 'success', 'عکس پروفایل با موفقیت پاک شد');
+        $this->dispatch('toast', icon: 'success', title: 'عکس پروفایل با موفقیت پاک شد');
     }
 
     public function changeEmail()
@@ -81,7 +81,7 @@ class Information extends Component
         }
         else {
             $this->dispatch('Fullname');
-            $this->dispatch('toast', 'success', 'اطلاعات پروفایل با موفقیت عوض شد');
+            $this->dispatch('toast', icon: 'success', title: 'اطلاعات پروفایل با موفقیت عوض شد');
         }
     }
 

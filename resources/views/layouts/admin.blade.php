@@ -6,19 +6,15 @@
     <title>داشبورد مدیریتی</title>
 
     @vite(['resources/sass/dashboard.scss', 'resources/js/dashboard.js', 'resources/js/charts.js'])
-
-    <!-- Google Fonts (Vazirmatn) -->
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-
+    @livewireStyles
 </head>
 <body>
 
 <!-- Sidebar -->
 <nav class="sidebar">
     <div class="sidebar-brand">
-        <a href="#" class="text-decoration-none d-flex align-items-center justify-content-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box ms-2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <a href="{{ route('dashboard') }}" class="text-decoration-none d-flex align-items-center justify-content-center">
+            <img src="{{ asset('assets/images/favicon/favicon-32x32.png') }}" width="24" height="24" alt="logo" class="ms-2">
             <span>پنل مدیریت</span>
         </a>
     </div>
@@ -138,5 +134,9 @@
         @yield('content')
     </main>
 </div>
+
+@livewireScripts
+
+@yield('js-scripts')
 </body>
 </html>

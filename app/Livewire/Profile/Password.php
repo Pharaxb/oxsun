@@ -33,7 +33,7 @@ class Password extends Component
             return redirect(route('login'));
         }
         else {
-            $this->dispatch('toast', 'error', 'گذرواژه جدید با گذرواژه فعلی یکی است.');
+            $this->dispatch('toast', icon: 'error', title: 'گذرواژه جدید با گذرواژه فعلی یکی است.');
         }
     }
 

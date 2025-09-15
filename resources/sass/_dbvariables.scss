@@ -226,7 +226,6 @@ body.sidebar-collapsed {
     }
 }
 
-/* Container for position tags */
 .position-tags-container {
     display: flex;
     flex-wrap: wrap;
@@ -234,12 +233,11 @@ body.sidebar-collapsed {
 }
 
 .position-tag .form-check-input {
-    display: none; /* مخفی کردن چک‌باکس اصلی */
+    display: none;
 }
 
 .position-tag .form-check-label {
     padding: 0.5rem 1rem;
-    /* در حالت عادی، حاشیه و متن همرنگ پوزیشن است */
     border: 1px solid var(--position-color, var(--bs-border-color));
     color: var(--position-color, var(--bs-body-color));
     border-radius: 50px;
@@ -249,15 +247,14 @@ body.sidebar-collapsed {
     background-color: transparent;
 }
 
-/* افکت هاور */
 .position-tag .form-check-label:hover {
     background-color: color-mix(in srgb, var(--position-color, var(--bs-secondary)) 15%, transparent);
 }
 
-/* استایل تگ‌های انتخاب شده */
+
 .position-tag .form-check-input:checked + .form-check-label {
     background-color: var(--position-color);
-    color: var(--text-color); /* رنگ متضاد که از backend می‌آید */
+    color: var(--text-color);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .sidebar-footer {
@@ -268,4 +265,74 @@ body.sidebar-collapsed {
     font-size: 0.8rem;
     color: var(--bs-secondary-color);
     opacity: 0.7;
+}
+
+
+
+.page-item {
+    &:not(:first-child) .page-link {
+        margin-left: $pagination-margin-start;
+    }
+
+    @if $pagination-margin-start == calc(-1 * #{$pagination-border-width}) {
+        &:first-child {
+            .page-link {
+                border-radius: 0 var(--bs-pagination-border-radius) var(--bs-pagination-border-radius) 0;
+            }
+        }
+
+        &:last-child {
+            //hehe
+            .page-link {
+                border-radius: var(--bs-pagination-border-radius) 0 0 var(--bs-pagination-border-radius);
+            }
+        }
+    } @else {
+        // Add border-radius to all pageLinks in case they have left margin
+        .page-link {
+            @include border-radius(var(--#{$prefix}pagination-border-radius));
+        }
+    }
+}
+
+/* Custom File Upload Styling */
+.file-upload-wrapper {
+    position: relative;
+    border: 2px dashed var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.file-upload-wrapper:hover {
+    border-color: var(--bs-primary);
+    background-color: var(--bs-tertiary-bg);
+}
+
+.file-upload-wrapper .file-upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-upload-wrapper .upload-icon {
+    font-size: 2.5rem;
+    color: var(--bs-secondary-color);
+}
+
+#fileName {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: var(--bs-primary);
+}
+
+/* Range Slider Value Display */
+.range-slider-label {
+    min-width: 140px;
 }

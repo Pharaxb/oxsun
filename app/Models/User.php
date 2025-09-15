@@ -27,8 +27,7 @@ class User extends Authenticatable
         'mobile_verified_at',
         'operator_id',
         'gender',
-        'min_age_id',
-        'max_age_id',
+        'birthday',
         'credit',
         'is_ban',
         'ban_reason',
@@ -74,5 +73,10 @@ class User extends Authenticatable
     public function locations(): HasMany
     {
         return $this->hasMany(UserLocation::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

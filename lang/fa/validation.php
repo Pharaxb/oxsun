@@ -164,6 +164,10 @@ return [
         'password_confirmation' => 'تکرار گذرواژه',
         'mobile' => 'شماره موبایل',
         'latitude' => 'عرض جغرافیایی',
-        'longitude' => 'طول جغرافیایی'
+        'longitude' => 'طول جغرافیایی',
+        'title' => 'عنوان',
+        'description' => 'توضیحات',
+        'province-select' => 'استان‌ها',
+        'file' => 'فایل'
     ],
 ];

@@ -51,7 +51,7 @@ class Edit extends Component
             $this->admin->save();
         }
 
-        $this->dispatch('toast', 'success', 'عکس پروفایل با موفقیت عوض شد');
+        $this->dispatch('toast', icon: 'success', title: 'عکس پروفایل با موفقیت عوض شد');
     }
 
     public function deleteAvatar()
@@ -63,7 +63,7 @@ class Edit extends Component
         $this->admin->avatar = NULL;
         $this->admin->save();
 
-        $this->dispatch('toast', 'success', 'عکس پروفایل با موفقیت پاک شد');
+        $this->dispatch('toast', icon: 'success', title: 'عکس پروفایل با موفقیت پاک شد');
     }
 
     public function changeInformation()
@@ -82,7 +82,7 @@ class Edit extends Component
         ]);
         DB::table('sessions')->where('user_id', $this->admin->id)->delete();
 
-        $this->dispatch('toast', 'success', 'اطلاعات پروفایل با موفقیت عوض شد');
+        $this->dispatch('toast', icon: 'success', title: 'اطلاعات پروفایل با موفقیت عوض شد');
     }
 
     public function changePositions()
@@ -92,7 +92,7 @@ class Edit extends Component
         ]);
         $this->admin->syncRoles($this->selectedRoles);
 
-        $this->dispatch('toast', 'success', 'سطح دسترسی با موفقیت تغییر کرد.');
+        $this->dispatch('toast', icon: 'success', title: 'سطح دسترسی با موفقیت تغییر کرد.');
     }
 
     public function changeBan()
@@ -105,7 +105,7 @@ class Edit extends Component
                 'ban_reason' => NULL
             ]);
 
-            $this->dispatch('toast', 'success', 'کاربر از مسدودیت خارج شد.');
+            $this->dispatch('toast', icon: 'success', title: 'کاربر از مسدودیت خارج شد.');
         }
         else {
             DB::table('sessions')->where('user_id', $this->admin->id)->delete();
@@ -115,7 +115,7 @@ class Edit extends Component
                 'ban_reason' => $this->ban_reason
             ]);
 
-            $this->dispatch('toast', 'success', 'کاربر با موفقیت مسدود شد.');
+            $this->dispatch('toast', icon: 'success', title: 'کاربر با موفقیت مسدود شد.');
         }
     }
 

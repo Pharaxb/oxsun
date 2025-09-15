@@ -3,7 +3,7 @@
         <div class="card-header justify-content-end" dir="ltr">
             <div class="input-group" style="max-width: 300px;">
                 <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" style="width: 20px;"></i></span>
-                <input type="text" class="form-control" placeholder="جستجو بر اساس نام، ایمیل..." dir="rtl">
+                <input type="text" class="form-control" placeholder="جستجو بر اساس نام، ایمیل..." dir="rtl" wire:model.live.debounce.300="title">
             </div>
         </div>
         <div class="card-body">

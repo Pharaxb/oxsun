@@ -8,8 +8,18 @@ $primary: #F7941D;
 // Variables
 @import 'dbvariables';
 
+// Fonts
+@import "../fonts/vazirmatn.css";
+
 // Fontawesome
 @import '@fortawesome/fontawesome-free/css/fontawesome.css';
 @import '@fortawesome/fontawesome-free/css/regular.css';
 @import '@fortawesome/fontawesome-free/css/solid.css';
 @import '@fortawesome/fontawesome-free/css/brands.css';
+
+// Persian DatePicker
+@import "persian-datepicker/dist/css/persian-datepicker.css";
+
+// Select2
+@import "select2";
+@import "select2-bootstrap-5-theme/dist/select2-bootstrap-5-theme.rtl.min.css";

@@ -41,4 +41,8 @@ return [
         'originator' => env('IPPANEL_ORIGINATOR'),
     ],
 
+    'neshan' => [
+        'api_key' => env('NESHAN_API_KEY'),
+    ],
+
 ];

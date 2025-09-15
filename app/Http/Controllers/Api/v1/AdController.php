@@ -23,7 +23,9 @@ use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Encoders\AutoEncoder;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use ProtoneMedia\LaravelFFMpeg\Exporters\EncodingException;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Ramsey\Uuid\Uuid;
@@ -167,9 +169,9 @@ class AdController extends BaseController
 
 
     /**
-     * List Ads.
+     * List of Ads.
      *
-     * List all ads based on the user's location.
+     * List of all ads based on the user's location.
      */
 
     public function getAds(Request $request)
@@ -177,7 +179,7 @@ class AdController extends BaseController
         $validator = Validator::make($request->all(), [
             'latitude' => 'required',
             'longitude' => 'required',
-            'page' => 'optional|integer|min:1',
+            'page' => 'nullable|integer|min:1',
         ]);
 
         if($validator->fails()){
@@ -200,7 +202,6 @@ class AdController extends BaseController
         $userAge = Carbon::parse($user->birthday)->diffInYears(Carbon::now());
         $userAgeCeil = 5 * ceil($userAge / 5);
         $userAgeRange = Age::where('group', '=', $userAgeCeil)->pluck('id')->first();
-        //dd($userAge);
         $operator = $user->operator_id;
 
         try
@@ -285,8 +286,6 @@ class AdController extends BaseController
             return $this->sendError('Not Found!', $e->getMessage(), 400);
         }
 
-        //dd($ads);
-
         return $this->sendResponse(new AdCollection($ads), 'Ads fetched.');
     }
 
@@ -330,12 +329,12 @@ class AdController extends BaseController
 
     private function reverseGps($latitude, $longitude)
     {
-        $neshanToken = "service.ke7PhuGY1PyrlxuczC9g3cF4ZejscapJIyE7cUP6";
+        //$neshanToken = "service.ke7PhuGY1PyrlxuczC9g3cF4ZejscapJIyE7cUP6";
         $url = "https://api.neshan.org/v5/reverse?lat=".$latitude."&lng=".$longitude;
 
         $client = new Client();
         $headers = [
-            'Api-Key' => $neshanToken
+            'Api-Key' => config('services.neshan.api_key')
         ];
         $request = new GuzzleRequest('GET', $url, $headers);
         $res = $client->sendAsync($request)->wait();
@@ -343,8 +342,8 @@ class AdController extends BaseController
         $responseArr = json_decode($response);
 
         $provine_id = Province::whereName(str_replace("استان ", "", $responseArr->state))->pluck('id')->first();
-        $city_id = City::whereName($responseArr->city)->pluck('id')->first();
-        $district_id = District::whereName($responseArr->neighbourhood)->pluck('id')->first();
+        $city_id = City::where('province_id', $provine_id)->whereName($responseArr->city)->pluck('id')->first();
+        $district_id = District::where('city_id', $city_id)->whereName($responseArr->neighbourhood)->pluck('id')->first();
 
         $userGeo['province_id'] = $provine_id;
         $userGeo['city_id'] = $city_id;
@@ -413,7 +412,7 @@ class AdController extends BaseController
             'title' => 'required',
             'description' => 'required|between:10,1000',
             'file' => [
-                'required',
+                'required', 'file',
                 function ($attribute, $value, $fail) {
                     $is_image = Validator::make(
                         ['upload' => $value],
@@ -432,30 +431,39 @@ class AdController extends BaseController
                     if ($is_video) {
                         $validator = Validator::make(
                             ['video' => $value],
-                            ['video' => "max:1048576"]
+                            ['video' => "max:102400"]
                         );
                         if ($validator->fails()) {
-                            $fail(":attribute must be 1 gigabytes or less.");
+                            $fail(":attribute must be 100 megabyte or less.");
                         }
                     }
 
                     if ($is_image) {
                         $validator = Validator::make(
                             ['image' => $value],
-                            ['image' => "max:5120"]
+                            ['image' => "max:10240"]
                         );
                         if ($validator->fails()) {
-                            $fail(":attribute must be 5 megabyte or less.");
+                            $fail(":attribute must be 10 megabyte or less.");
                         }
                     }
                 },
             ],
-            'circulation' => 'required|integer|min:1000',
-            'cost' => 'required|integer|min:100',
-            'min_age' => 'nullable|integer',
-            'max_age' => 'nullable|integer',
+            'circulation' => 'required|integer|min:100',
+            'cost' => 'required|integer|min:10000',
+            'min_age' => 'nullable|integer|between:1,19',
+            'max_age' => 'nullable|integer|between:1,19',
+            /**
+             * Format: {"provinces":[],"cities":[],"districts":[]}
+             */
             'locations' => 'required|json',
+            /**
+             * Format: Y-m-d
+             */
             'start_date' => 'nullable|date_format:"Y-m-d"',
+            /**
+             * Format: Y-m-d
+             */
             'end_date' => 'nullable|date_format:"Y-m-d"'
         ]);
 
@@ -541,9 +549,7 @@ class AdController extends BaseController
             $this->ad_locations($adId, $request->locations);
             $user->decrement('credit', $totalPrice);
 
-
-
-            $user->wallets()->create([
+            $user->transactions()->create([
                 'amount' => $totalPrice*(-1),
                 'description' => 'درج آگهی'
             ]);
@@ -569,7 +575,7 @@ class AdController extends BaseController
                 ->export()
                 ->inFormat(new \FFMpeg\Format\Video\X264)
                 ->resize(1080, 1350, 'inset')
-                ->toDisk('real_public')
+                ->toDisk('public')
                 ->save($fullPath);
         } catch (EncodingException $exception) {
             $command = $exception->getCommand();
@@ -589,20 +595,16 @@ class AdController extends BaseController
         $userId = $user->id;
         $path = '/media/ads/'.$userId.'/image/';
         $uuid = Uuid::uuid4()->toString();
-        $fileExt = $file->getClientOriginalExtension();
+        $fileExt = strtolower($file->getClientOriginalExtension());
         $filename = $uuid.".".$fileExt;
         $fullPath = $path.$filename;
         if (!file_exists($path)) {
             mkdir($path, 666, true);
         }
         try {
-            $image = Image::make($file)
-                ->resize(1080, 1350, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode($fileExt, 85);
-            Storage::disk('real_public')->put($fullPath, (string) $image);
+            $image = ImageManager::gd()->read($file)
+                ->cover(1080, 1350)->encode(new AutoEncoder(quality: 85));
+            Storage::disk('public')->put($fullPath, (string) $image);
         }
         catch (\Exception $e) {
             $result = ['success' => false, 'message' => $e->getMessage()];
@@ -615,38 +617,28 @@ class AdController extends BaseController
     private function ad_locations($adId, $locations)
     {
         $locationsArr = json_decode($locations);
-        if (isset($locationsArr->provinces)) {
-            $provinces = $locationsArr->provinces->data;
+        if(isset($locationsArr->provinces)) {
+            $provinces = $locationsArr->provinces;
             $provincesCount = count($provinces);
             if($provincesCount == 1) {
-                $provinceId = $locationsArr->provinces->data[0];
-                if (isset($locationsArr->provinces->cities)) {
-                    $cities = $locationsArr->provinces->cities->data;
-                    $citiesCount = count($cities);
-                    if ($citiesCount == 1) {
-                        $cityId = $locationsArr->provinces->cities->data[0];
-                        if (isset($locationsArr->provinces->cities->districts)) {
-                            $districts = $locationsArr->provinces->cities->districts->data;
-                            foreach ($districts as $district) {
-                                AdLocation::create([
-                                    'ad_id' => $adId,
-                                    'province_id' => $provinceId,
-                                    'city_id' => $cityId,
-                                    'district_id' => $district
-                                ]);
-                            }
-                        }
-                        else {
-                            foreach ($cities as $city) {
-                                AdLocation::create([
-                                    'ad_id' => $adId,
-                                    'province_id' => $provinceId,
-                                    'city_id' => $city
-                                ]);
-                            }
+                $provinceId = $locationsArr->provinces[0];
+                $cities = $locationsArr->cities;
+                $citiesCount = count($cities);
+                if ($citiesCount == 1) {
+                    $cityId = $locationsArr->cities[0];
+                    $districts = $locationsArr->districts;
+                    $districtsCount = count($districts);
+                    if ($districtsCount > 0) {
+                        foreach ($districts as $district) {
+                            AdLocation::create([
+                                'ad_id' => $adId,
+                                'province_id' => $provinceId,
+                                'city_id' => $cityId,
+                                'district_id' => $district
+                            ]);
                         }
                     }
-                    elseif ($citiesCount > 1) {
+                    else {
                         foreach ($cities as $city) {
                             AdLocation::create([
                                 'ad_id' => $adId,
@@ -655,10 +647,13 @@ class AdController extends BaseController
                             ]);
                         }
                     }
-                    else {
+                }
+                elseif ($citiesCount > 1) {
+                    foreach ($cities as $city) {
                         AdLocation::create([
                             'ad_id' => $adId,
-                            'province_id' => $provinceId
+                            'province_id' => $provinceId,
+                            'city_id' => $city
                         ]);
                     }
                 }
@@ -668,6 +663,7 @@ class AdController extends BaseController
                         'province_id' => $provinceId
                     ]);
                 }
+
             }
             elseif ($provincesCount > 1) {
                 foreach ($provinces as $province) {
