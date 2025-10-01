@@ -76,26 +76,6 @@ return new class extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
         });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->foreign('ad_id')->references('id')->on('ads')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->foreign('province_id')->references('id')->on('provinces')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->foreign('city_id')->references('id')->on('cities')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->foreign('district_id')->references('id')->on('districts')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-        });
         Schema::table('user_locations', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('restrict')
@@ -162,18 +142,6 @@ return new class extends Migration
         });
         Schema::table('sms_tokens', function(Blueprint $table) {
             $table->dropForeign('sms_tokens_user_id_foreign');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->dropForeign('ad_locations_ad_id_foreign');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->dropForeign('ad_locations_province_id_foreign');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->dropForeign('ad_locations_city_id_foreign');
-        });
-        Schema::table('ad_locations', function(Blueprint $table) {
-            $table->dropForeign('ad_locations_district_id_foreign');
         });
         Schema::table('user_locations', function(Blueprint $table) {
             $table->dropForeign('user_locations_user_id_foreign');

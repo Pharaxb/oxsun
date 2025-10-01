@@ -56,8 +56,7 @@ class AuthController extends BaseController
             catch (QueryException $exception)
             {
                 $message = $exception->getMessage();
-                return $this->sendError('Database error', 'Unable to create user', 500);
-                //return $this->sendError($message, $exception->getCode());
+                return $this->sendError('Unable to create user', $message, 500);
             }
         }
     }
@@ -146,13 +145,13 @@ class AuthController extends BaseController
             $smsToken = SmsToken::where('user_id', $userid)->where('code', $request->sms)->orderBy('id', 'desc')->first();
             //if($smsToken == NULL || !Hash::check($request->sms, $smsToken->code)) {
             if($smsToken == NULL) {
-                return $this->sendError('smsCode', 'این کد تائیدیه صحیح نیست');
+                return $this->sendError('OTP is invalid', 'این کد تائیدیه صحیح نیست', 409);
             }
             elseif($smsToken->is_used == true) {
-                return $this->sendError('smsCode', 'این کد تائیدیه استفاده شده است');
+                return $this->sendError('OTP is invalid', 'این کد تائیدیه استفاده شده است', 409);
             }
             elseif(Carbon::parse($smsToken->created_at)->addSeconds(5000)->lt(now())) {
-                return $this->sendError('smsCode', 'این کد تائیدیه منقضی شده است');
+                return $this->sendError('OTP is Expired', 'این کد تائیدیه منقضی شده است', 410);
             }
             else {
                 $smsToken->update([
@@ -171,7 +170,7 @@ class AuthController extends BaseController
                 $success['surname'] =  $user->surname;
                 $success['credit'] =  $user->credit;
 
-                return $this->sendResponse($success, 'User signed in');
+                return $this->sendResponse($success, 'User has been authorised');
             }
         }
         else {

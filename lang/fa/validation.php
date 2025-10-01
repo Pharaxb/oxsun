@@ -168,6 +168,13 @@ return [
         'title' => 'عنوان',
         'description' => 'توضیحات',
         'province-select' => 'استان‌ها',
-        'file' => 'فایل'
+        'file' => 'فایل',
+        'provinces' => 'استان',
+        'cities' => 'شهر',
+        'districts' => 'منطقه',
+        'provinces.*' => 'استان',
+        'cities.*' => 'شهر',
+        'districts.*' => 'منطقه',
+        'locations' => 'موقعیت‌های جغرافیایی',
     ],
 ];

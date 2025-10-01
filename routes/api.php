@@ -25,13 +25,13 @@ Route::group(['prefix' => 'v1'], function(){
 
         Route::group(['prefix' => 'user'], function(){
             Route::get('show', [UserController::class, 'show']);
-            Route::post('update', [UserController::class, 'update']);
+            Route::put('update', [UserController::class, 'update']);
         });
 
         Route::group(['prefix' => 'filters'], function(){
-            Route::get('province', [AdFilterController::class, 'getProvinces']);
-            Route::get('city', [AdFilterController::class, 'getCities']);
-            Route::get('district', [AdFilterController::class, 'getDistricts']);
+            Route::get('provinces', [AdFilterController::class, 'getProvinces']);
+            Route::get('cities', [AdFilterController::class, 'getCities']);
+            Route::get('districts', [AdFilterController::class, 'getDistricts']);
             Route::get('operators', [AdFilterController::class, 'getOperators']);
             Route::get('ages', [AdFilterController::class, 'getAges']);
         });

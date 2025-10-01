@@ -20,6 +20,7 @@ class Ad extends Model
         'viewed',
         'cost',
         'commission',
+        'locations',
         'gender',
         'operator_id',
         'min_age_id',
@@ -31,11 +32,6 @@ class Ad extends Model
         'start_date',
         'end_date',
     ];
-
-    public function adLocations(): HasMany
-    {
-        return $this->hasMany(AdLocation::class);
-    }
 
     public function adUser(): BelongsToMany
     {

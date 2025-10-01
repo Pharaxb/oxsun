@@ -49,7 +49,7 @@ class UserController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendError('Error validation', $validator->errors());
+            return $this->sendError('Error validation', $validator->errors(), 400);
         }
 
         $user = Auth::user();
@@ -66,7 +66,8 @@ class UserController extends BaseController
         }
         catch(QueryException $exception)
         {
-            return $this->sendError('Unknown Error!', $exception->getCode());
+            $message = $exception->getMessage();
+            return $this->sendError('Unable to update user profile', $message, 500);
         }
     }
 }

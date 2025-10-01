@@ -129,6 +129,7 @@ class AdController extends Controller
             'circulation' => $request->circulation,
             'cost' => $request->cost,
             'commission' => $commission,
+            'locations' => $locations,
             'gender' => $gender,
             'operator_id' => $operator,
             'min_age_id' => $min_age,
@@ -171,7 +172,6 @@ class AdController extends Controller
 
         try {
             $ad = Ad::create($ad_data);
-            $this->ad_locations($ad->id, $locations);
 
             return redirect(route('ads.index'));
         }

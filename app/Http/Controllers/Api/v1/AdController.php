@@ -6,13 +6,11 @@ use App\Http\Controllers\Api\v1\BaseController as BaseController;
 use App\Http\Resources\v1\AdCollection;
 use App\Http\Resources\v1\AdResource;
 use App\Models\Ad;
-use App\Models\AdLocation;
 use App\Models\Age;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Setting;
-use App\Models\User;
 use App\Models\UserLocation;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -23,9 +21,9 @@ use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Encoders\AutoEncoder;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 use ProtoneMedia\LaravelFFMpeg\Exporters\EncodingException;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use Ramsey\Uuid\Uuid;
@@ -219,7 +217,22 @@ class AdController extends BaseController
                     $query->whereRaw('end_date > NOW()')
                         ->orWhereNull('end_date');
                 })
-                ->WhereHas('adLocations', function($query) use ($province){
+                ->where(function ($query) use ($province) {
+                    $query->whereJsonContains('locations->provinces', $province)
+                    ->orWhereJsonLength('locations->provinces', 0)
+                    ->orWhereNull('locations');
+                })
+                ->where(function ($query) use ($city) {
+                    $query->whereJsonContains('locations->cities', $city)
+                    ->orWhereJsonLength('locations->cities', 0)
+                    ->orWhereNull('locations');
+                })
+                ->where(function ($query) use ($district) {
+                    $query->whereJsonContains('locations->districts', $district)
+                    ->orWhereJsonLength('locations->districts', 0)
+                    ->orWhereNull('locations');
+                })
+                /*->WhereHas('adLocations', function($query) use ($province){
                     $query->where('province_id', $province)
                         ->orWhereNull('province_id');
                 })
@@ -230,7 +243,7 @@ class AdController extends BaseController
                 ->WhereHas('adLocations', function($query) use ($district){
                     $query->where('district_id', $district)
                         ->orWhereNull('district_id');
-                })
+                })*/
                 ->where(function ($query) use ($gender) {
                     $query->where('gender', $gender)
                         ->orWhereNull('gender');
@@ -396,7 +409,7 @@ class AdController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendError('Error validation', $validator->errors());
+            return $this->sendError('Error validation', $validator->errors(), 400);
         }
     }*/
 
@@ -457,6 +470,7 @@ class AdController extends BaseController
              * Format: {"provinces":[],"cities":[],"districts":[]}
              */
             'locations' => 'required|json',
+
             /**
              * Format: Y-m-d
              */
@@ -468,7 +482,51 @@ class AdController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendError('Error validation', $validator->errors());
+            return $this->sendError('Error validation', $validator->errors(), 400);
+        }
+
+        $locations = json_decode($request->locations, true);
+        if (!array_key_exists('provinces', $locations) || !is_array($locations['provinces']) ||
+            !array_key_exists('cities', $locations) || !is_array($locations['cities']) ||
+            !array_key_exists('districts', $locations) || !is_array($locations['districts'])) {
+
+            return $this->sendError('Error validation', 'ساختار JSON نامعتبر است. باید شامل آرایه‌های provinces، cities و districts باشد.', 400);
+        }
+
+        $validator = Validator::make(['provinces' => $locations['provinces']], [
+            'provinces' => 'array',
+            'provinces.*' => [
+                'integer',
+                Rule::exists('provinces', 'id')->where('is_active', true),
+            ],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Error validation', $validator->errors(), 400);
+        }
+
+        $validator = Validator::make(['cities' => $locations['cities']], [
+            'cities' => 'array',
+            'cities.*' => [
+                'integer',
+                Rule::exists('cities', 'id')->where('is_active', true),
+            ],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Error validation', $validator->errors(), 400);
+        }
+
+        $validator = Validator::make(['districts' => $locations['districts']], [
+            'districts' => 'array',
+            'districts.*' => [
+                'integer',
+                Rule::exists('districts', 'id')->where('is_active', true),
+            ],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Error validation', $validator->errors(), 400);
         }
 
         $commission = Setting::where('key', 'commission')->value('value');
@@ -480,8 +538,9 @@ class AdController extends BaseController
         $ad_data['description'] = $request->description;
         $file = $request->file('file');
         $ad_data['circulation'] = $request->circulation;
-        $ad_data['commission'] = intval($commission);
         $ad_data['cost'] = $request->cost;
+        $ad_data['commission'] = intval($commission);
+        $ad_data['locations'] = $request->locations;
         $ad_data['gender'] = $request->gender;
         $ad_data['operator_id'] = $request->operator_id;
         $ad_data['min_age_id'] = $request->min_age;
@@ -516,7 +575,7 @@ class AdController extends BaseController
             }
             else
             {
-                return $this->sendError('Upload problem', $result['message']);
+                return $this->sendError('Upload problem', $result['message'], 504);
             }
         }
         else
@@ -529,7 +588,7 @@ class AdController extends BaseController
             }
             else
             {
-                return $this->sendError('Upload problem', $result['message']);
+                return $this->sendError('Upload problem', $result['message'], 504);
             }
         }
 
@@ -540,13 +599,11 @@ class AdController extends BaseController
 
         if ($user->credit < $totalPrice)
         {
-            return $this->sendError('Insufficient Credit', 'Insufficient Credit');
+            return $this->sendError('Insufficient Credit', 'Insufficient Credit', 402);
         }
 
         try{
             $ad = auth()->user()->ads()->create($ad_data);
-            $adId = $ad->id;
-            $this->ad_locations($adId, $request->locations);
             $user->decrement('credit', $totalPrice);
 
             $user->transactions()->create([
@@ -554,11 +611,16 @@ class AdController extends BaseController
                 'description' => 'درج آگهی'
             ]);
 
-            return $this->sendResponse($request->all(), "Ad data has been sent");
+            return $this->sendResponse($request->all(), "Ad data has been sent", 201);
         }
-        catch(QueryException $exception)
+        /*catch(QueryException $exception)
         {
             return $this->sendError('Unknown Error!', $exception->getCode());
+        }*/
+        catch (QueryException $exception)
+        {
+            $message = $exception->getMessage();
+            return $this->sendError('Unable to create Ad', $message, 500);
         }
     }
 
@@ -693,7 +755,7 @@ class AdController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendError('Error validation', $validator->errors());
+            return $this->sendError('Error validation', $validator->errors(), 400);
         }
 
         $user = Auth::user();
